@@ -1,7 +1,13 @@
+import { recommendationSchema } from '../schemas/schemas.js';
 import * as recommendationService from '../services/recommendationService.js';
 
 async function postRecommedation(req, res) {
     const { name, youtubeLink } = req.body;
+    const invalidBody = recommendationSchema.validate({ name, youtubeLink }).error;
+
+    if (invalidBody) {
+        return res.sendStatus(400);
+    }
 
     try {
         await recommendationService.createRecomendation({ name, youtubeLink });
