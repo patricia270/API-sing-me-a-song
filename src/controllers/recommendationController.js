@@ -28,7 +28,19 @@ async function AddEscore(req, res) {
     }
 }
 
+async function subtractScore(req, res) {
+    const { id } = req.params;
+
+    try {
+        await recommendationService.decreaseScore({ id });
+        res.sendStatus(201);
+    } catch (error) {
+        res.sendStatus(500);
+    }
+}
+
 export {
     postRecommedation,
     AddEscore,
+    subtractScore,
 };

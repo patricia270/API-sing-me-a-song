@@ -16,7 +16,16 @@ async function increaseScore({ id }) {
     ;`, [id]);
 }
 
+async function decreaseScore({ id }) {
+    await connection.query(`
+        UPDATE recommendations 
+        SET score = recommendations.score - 1
+        WHERE id = $1
+    ;`, [id]);
+}
+
 export {
     createRecomendation,
     increaseScore,
+    decreaseScore,
 };

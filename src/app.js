@@ -9,5 +9,6 @@ app.use(cors());
 
 app.post('/recommendations', recommendationController.postRecommedation);
 app.post('/recommendations/:id/upvote', recommendationController.AddEscore);
+app.post('/recommendations/:id/downvote', recommendationController.subtractScore);
 
 export default app;
