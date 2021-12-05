@@ -8,6 +8,15 @@ async function createRecomendation({ name, youtubeLink }) {
     `, [name, youtubeLink]);
 }
 
+async function increaseScore({ id }) {
+    await connection.query(`
+        UPDATE recommendations 
+        SET score = recommendations.score + 1
+        WHERE id = $1
+    ;`, [id]);
+}
+
 export {
     createRecomendation,
+    increaseScore,
 };

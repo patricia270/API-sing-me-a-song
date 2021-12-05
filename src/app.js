@@ -8,5 +8,6 @@ app.use(express.json());
 app.use(cors());
 
 app.post('/recommendations', recommendationController.postRecommedation);
+app.post('/recommendations/:id/upvote', recommendationController.AddEscore);
 
 export default app;

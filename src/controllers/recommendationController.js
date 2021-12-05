@@ -17,6 +17,18 @@ async function postRecommedation(req, res) {
     }
 }
 
+async function AddEscore(req, res) {
+    const { id } = req.params;
+
+    try {
+        await recommendationService.increaseScore({ id });
+        res.sendStatus(201);
+    } catch (error) {
+        res.sendStatus(500);
+    }
+}
+
 export {
     postRecommedation,
+    AddEscore,
 };
