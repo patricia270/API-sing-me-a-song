@@ -9,7 +9,11 @@ async function increaseScore({ id }) {
 }
 
 async function decreaseScore({ id }) {
-    await recommendationRepository.decreaseScore({ id });
+    const score = await recommendationRepository.decreaseScore({ id });
+
+    if (score < -5) {
+        recommendationRepository.deleteRecommendation({ id });
+    }
 }
 
 export {
