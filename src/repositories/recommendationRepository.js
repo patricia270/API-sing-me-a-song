@@ -42,9 +42,20 @@ async function deleteRecommendation({ id }) {
     ;`, [id]);
 }
 
+async function selectTopRecommendations({ amount }) {
+    const result = await connection.query(`
+        SELECT id, name, youtube_link AS "youtubeLink", 
+        score FROM recommendations
+        ORDER BY recommendations.score DESC LIMIT $1
+    ;`, [amount]);
+
+    return result.rows;
+}
+
 export {
     createRecomendation,
     increaseScore,
     decreaseScore,
     deleteRecommendation,
+    selectTopRecommendations,
 };

@@ -39,8 +39,21 @@ async function subtractScore(req, res) {
     }
 }
 
+async function getTopRecommendations(req, res) {
+    const { amount } = req.params;
+
+    try {
+        const topRecommendations = await recommendationService.selectTopRecommendations({ amount });
+
+        res.send(topRecommendations);
+    } catch (error) {
+        res.sendStatus(500);
+    }
+}
+
 export {
     postRecommedation,
     AddEscore,
     subtractScore,
+    getTopRecommendations,
 };

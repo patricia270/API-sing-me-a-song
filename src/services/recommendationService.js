@@ -16,8 +16,15 @@ async function decreaseScore({ id }) {
     }
 }
 
+async function selectTopRecommendations({ amount }) {
+    const topRecommendations = await recommendationRepository.selectTopRecommendations({ amount });
+
+    return topRecommendations;
+}
+
 export {
     createRecomendation,
     increaseScore,
     decreaseScore,
+    selectTopRecommendations,
 };
