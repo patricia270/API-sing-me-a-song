@@ -22,7 +22,7 @@ async function AddEscore(req, res) {
 
     try {
         await recommendationService.increaseScore({ id });
-        res.sendStatus(201);
+        res.sendStatus(200);
     } catch (error) {
         res.sendStatus(500);
     }
@@ -33,7 +33,7 @@ async function subtractScore(req, res) {
 
     try {
         await recommendationService.decreaseScore({ id });
-        res.sendStatus(201);
+        res.sendStatus(200);
     } catch (error) {
         res.sendStatus(500);
     }
