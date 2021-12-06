@@ -12,5 +12,6 @@ app.post('/recommendations/:id/upvote', recommendationController.AddEscore);
 app.post('/recommendations/:id/downvote', recommendationController.subtractScore);
 
 app.get('/recommendations/top/:amount', recommendationController.getTopRecommendations);
+app.get('/recommendations/random', recommendationController.getRandomRecommendation);
 
 export default app;

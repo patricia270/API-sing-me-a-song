@@ -51,9 +51,22 @@ async function getTopRecommendations(req, res) {
     }
 }
 
+async function getRandomRecommendation(req, res) {
+    try {
+        const randomRecommendation = await recommendationService.selectRandomRecommendation();
+        if (randomRecommendation === null) {
+            return res.sendStatus(404);
+        }
+        res.send(randomRecommendation);
+    } catch (error) {
+        res.sendStatus(500);
+    }
+}
+
 export {
     postRecommedation,
     AddEscore,
     subtractScore,
     getTopRecommendations,
+    getRandomRecommendation,
 };

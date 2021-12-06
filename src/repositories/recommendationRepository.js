@@ -52,10 +52,46 @@ async function selectTopRecommendations({ amount }) {
     return result.rows;
 }
 
+async function selectHigthScoreRecommendation() {
+    const result = await connection.query(`
+        SELECT id, name, youtube_link AS "youtubeLink", 
+        score FROM recommendations 
+        WHERE recommendations.score > 10 
+        ORDER BY random() LIMIT $1
+    ;`, [1]);
+
+    return result.rows;
+}
+
+async function selectLowScoreRecommendation() {
+    const result = await connection.query(`
+        SELECT id, name, youtube_link AS "youtubeLink", 
+        score FROM recommendations 
+        WHERE recommendations.score >= -5 
+        AND recommendations.score <= 10
+        ORDER BY random() LIMIT $1
+    ;`, [1]);
+
+    return result.rows;
+}
+
+async function selectRandomRecommendation() {
+    const result = await connection.query(`
+        SELECT id, name, youtube_link AS "youtubeLink", 
+        score FROM recommendations 
+        ORDER BY random() LIMIT $1
+    ;`, [1]);
+
+    return result.rows;
+}
+
 export {
     createRecomendation,
     increaseScore,
     decreaseScore,
     deleteRecommendation,
     selectTopRecommendations,
+    selectHigthScoreRecommendation,
+    selectLowScoreRecommendation,
+    selectRandomRecommendation,
 };
