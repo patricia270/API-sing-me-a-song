@@ -45,3 +45,24 @@ describe('POST/recommendations/:id/upvote', () => {
         expect(result).toBe(false);
     });
 });
+
+describe('POST/recommendations/:id/downvote', () => {
+    it('Score decrease when greater than -5', async () => {
+        jest.spyOn(recommendationRepository, 'decreaseScore').mockImplementationOnce(() => -4);
+        const result = await recommendationService.decreaseScore({ id: 1 });
+        expect(result).toBe(true);
+    });
+
+    it('Score decrease when equal to -5', async () => {
+        jest.spyOn(recommendationRepository, 'decreaseScore').mockImplementationOnce(() => -5);
+        const result = await recommendationService.decreaseScore({ id: 1 });
+        expect(result).toBe(true);
+    });
+
+    it('Recommendation exclusion when score less than -5', async () => {
+        jest.spyOn(recommendationRepository, 'decreaseScore').mockImplementationOnce(() => -6);
+        jest.spyOn(recommendationRepository, 'deleteRecommendation').mockImplementationOnce(() => true);
+        const result = await recommendationService.decreaseScore({ id: 1 });
+        expect(result).toBe(false);
+    });
+});
