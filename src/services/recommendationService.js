@@ -8,7 +8,7 @@ async function createRecomendation({ name, youtubeLink }) {
 async function increaseScore({ id }) {
     if (id) {
         const result = await recommendationRepository.increaseScore({ id });
-        return result;
+        return Boolean(result);
     }
     return false;
 }

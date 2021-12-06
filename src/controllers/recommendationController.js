@@ -21,7 +21,10 @@ async function AddEscore(req, res) {
     const { id } = req.params;
 
     try {
-        await recommendationService.increaseScore({ id });
+        const result = await recommendationService.increaseScore({ id });
+        if (!result) {
+            return res.sendStatus(404);
+        }
         res.sendStatus(200);
     } catch (error) {
         res.sendStatus(500);
