@@ -1,11 +1,13 @@
 import connection from '../database/database.js';
 
 async function createRecomendation({ name, youtubeLink }) {
-    await connection.query(`
+    const result = await connection.query(`
         INSERT INTO recommendations 
         (name, youtube_link) 
         VALUES ($1, $2);
     `, [name, youtubeLink]);
+
+    return result.rows;
 }
 
 async function increaseScore({ id }) {
@@ -14,6 +16,7 @@ async function increaseScore({ id }) {
         SET score = recommendations.score + 1
         WHERE id = $1
     ;`, [id]);
+    return true;
 }
 
 async function selectRecommendation({ id }) {
@@ -40,6 +43,7 @@ async function deleteRecommendation({ id }) {
     await connection.query(`
         DELETE FROM recommendations WHERE id = $1
     ;`, [id]);
+    return true;
 }
 
 async function selectTopRecommendations({ amount }) {

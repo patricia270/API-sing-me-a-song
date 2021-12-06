@@ -1,20 +1,26 @@
-/* eslint-disable max-len */
 import * as recommendationRepository from '../repositories/recommendationRepository.js';
 
 async function createRecomendation({ name, youtubeLink }) {
-    await recommendationRepository.createRecomendation({ name, youtubeLink });
+    const result = await recommendationRepository.createRecomendation({ name, youtubeLink });
+    return result;
 }
 
 async function increaseScore({ id }) {
-    await recommendationRepository.increaseScore({ id });
+    if (id) {
+        const result = await recommendationRepository.increaseScore({ id });
+        return result;
+    }
+    return false;
 }
 
 async function decreaseScore({ id }) {
     const score = await recommendationRepository.decreaseScore({ id });
 
     if (score < -5) {
-        recommendationRepository.deleteRecommendation({ id });
+        await recommendationRepository.deleteRecommendation({ id });
+        return false;
     }
+    return true;
 }
 
 async function selectTopRecommendations({ amount }) {
@@ -35,7 +41,7 @@ async function selectRandomRecommendation() {
     if (!highScoreRecommendation.length || !lowScoreRecommendation.length) {
         return randomRecommendationList;
     }
-    if (perc < 0.7) {
+    if (perc <= 0.7) {
         return highScoreRecommendation;
     }
     return lowScoreRecommendation;
