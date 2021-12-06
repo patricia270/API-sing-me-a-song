@@ -11,12 +11,12 @@ async function createRecomendation({ name, youtubeLink }) {
 }
 
 async function increaseScore({ id }) {
-    await connection.query(`
+    const result = await connection.query(`
         UPDATE recommendations 
         SET score = recommendations.score + 1
-        WHERE id = $1
+        WHERE id = $1 RETURNING id
     ;`, [id]);
-    return true;
+    return result.rowCount;
 }
 
 async function selectRecommendation({ id }) {
