@@ -88,3 +88,205 @@ describe('GET /recommendations/top/:amount', () => {
         ]);
     });
 });
+
+describe('GET /recommendations/random', () => {
+    it('No registered recommendations', async () => {
+        jest.spyOn(global.Math, 'random').mockImplementationOnce(() => 0.6);
+        jest.spyOn(recommendationRepository, 'selectRandomRecommendation').mockImplementationOnce(() => false);
+        jest.spyOn(recommendationRepository, 'selectHigthScoreRecommendation').mockImplementationOnce(() => false);
+        jest.spyOn(recommendationRepository, 'selectLowScoreRecommendation').mockImplementationOnce(() => false);
+
+        const result = await recommendationService.selectRandomRecommendation();
+        expect(result).toBe(null);
+    });
+
+    it('List random recommendation by perc <= 70', async () => {
+        jest.spyOn(global.Math, 'random').mockImplementationOnce(() => 0.7);
+        jest.spyOn(recommendationRepository, 'selectRandomRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+            {
+                id: 2,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: -4,
+            },
+        ]));
+        jest.spyOn(recommendationRepository, 'selectHigthScoreRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+        ]));
+        jest.spyOn(recommendationRepository, 'selectLowScoreRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 2,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: -4,
+            },
+        ]));
+
+        const result = await recommendationService.selectRandomRecommendation();
+        expect(result).toEqual([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+        ]);
+    });
+
+    it('List random recommendation by perc <= 0.69', async () => {
+        jest.spyOn(global.Math, 'random').mockImplementationOnce(() => 0.69);
+        jest.spyOn(recommendationRepository, 'selectRandomRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+            {
+                id: 2,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: -4,
+            },
+        ]));
+        jest.spyOn(recommendationRepository, 'selectHigthScoreRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+        ]));
+        jest.spyOn(recommendationRepository, 'selectLowScoreRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 2,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: -4,
+            },
+        ]));
+        const result = await recommendationService.selectRandomRecommendation();
+        expect(result).toEqual([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+        ]);
+    });
+
+    it('List random recommendation by perc <= 0.71', async () => {
+        jest.spyOn(global.Math, 'random').mockImplementationOnce(() => 0.71);
+        jest.spyOn(recommendationRepository, 'selectRandomRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+            {
+                id: 2,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: -4,
+            },
+        ]));
+        jest.spyOn(recommendationRepository, 'selectHigthScoreRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+        ]));
+        jest.spyOn(recommendationRepository, 'selectLowScoreRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 2,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: -4,
+            },
+        ]));
+        const result = await recommendationService.selectRandomRecommendation();
+        expect(result).toEqual([
+            {
+                id: 2,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: -4,
+            },
+        ]);
+    });
+
+    it('List random recommendation without low score recommendation', async () => {
+        jest.spyOn(global.Math, 'random').mockImplementationOnce(() => 0.70);
+        jest.spyOn(recommendationRepository, 'selectRandomRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+        ]));
+        jest.spyOn(recommendationRepository, 'selectHigthScoreRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+        ]));
+        jest.spyOn(recommendationRepository, 'selectLowScoreRecommendation').mockImplementationOnce(() => false);
+        const result = await recommendationService.selectRandomRecommendation();
+        expect(result).toEqual([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 11,
+            },
+        ]);
+    });
+
+    it('List random recommendation without low score recommendation', async () => {
+        jest.spyOn(global.Math, 'random').mockImplementationOnce(() => 0.70);
+        jest.spyOn(recommendationRepository, 'selectRandomRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: -4,
+            },
+        ]));
+        jest.spyOn(recommendationRepository, 'selectHigthScoreRecommendation').mockImplementationOnce(() => false);
+        jest.spyOn(recommendationRepository, 'selectLowScoreRecommendation').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: -4,
+            },
+        ]));
+        const result = await recommendationService.selectRandomRecommendation();
+        expect(result).toEqual([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: -4,
+            },
+        ]);
+    });
+});
