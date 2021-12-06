@@ -6,19 +6,19 @@ describe('POST/recommendations', () => {
         jest.spyOn(recommendationRepository, 'createRecomendation').mockImplementationOnce(() => ([
             {
                 id: 1,
-                name: 'nome',
+                name: 'título',
                 youtubeLink: 'youtube.com/link',
                 score: 0,
             },
         ]));
         const result = await recommendationService.createRecomendation({
-            name: 'nome',
+            name: 'título',
             youtubeLink: 'youtube.com/link',
         });
         expect(result).toEqual([
             {
                 id: 1,
-                name: 'nome',
+                name: 'título',
                 youtubeLink: 'youtube.com/link',
                 score: 0,
             },
@@ -64,5 +64,27 @@ describe('POST/recommendations/:id/downvote', () => {
         jest.spyOn(recommendationRepository, 'deleteRecommendation').mockImplementationOnce(() => true);
         const result = await recommendationService.decreaseScore({ id: 1 });
         expect(result).toBe(false);
+    });
+});
+
+describe('GET /recommendations/top/:amount', () => {
+    it('List top recommendations by limit', async () => {
+        jest.spyOn(recommendationRepository, 'selectTopRecommendations').mockImplementationOnce(() => ([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 0,
+            },
+        ]));
+        const result = await recommendationService.selectTopRecommendations({ amount: 1 });
+        expect(result).toEqual([
+            {
+                id: 1,
+                name: 'título',
+                youtubeLink: 'youtube.com/link',
+                score: 0,
+            },
+        ]);
     });
 });
