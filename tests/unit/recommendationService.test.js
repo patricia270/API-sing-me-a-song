@@ -31,3 +31,17 @@ describe('POST/recommendations', () => {
         expect(result).toBeUndefined();
     });
 });
+
+describe('POST/recommendations/:id/upvote', () => {
+    it('Score increase', async () => {
+        jest.spyOn(recommendationRepository, 'increaseScore').mockImplementationOnce(() => true);
+        const result = await recommendationService.increaseScore({ id: 1 });
+        expect(result).toBe(true);
+    });
+
+    it('Score increase without id', async () => {
+        jest.spyOn(recommendationRepository, 'increaseScore').mockImplementationOnce(() => true);
+        const result = await recommendationService.increaseScore({ });
+        expect(result).toBe(false);
+    });
+});
